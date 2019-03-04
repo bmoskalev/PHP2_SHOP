@@ -22,12 +22,12 @@ class Db {
     private static function instance() {
         if (self::$instance === null) {
             $opt = array(
-                PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
-                PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC,
-                PDO::ATTR_EMULATE_PREPARES => TRUE,
+                \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
+                \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC,
+                \PDO::ATTR_EMULATE_PREPARES => TRUE,
             );
             $dsn = DRIVER . ':host=' . HOST . ';dbname=' . DBName . ';charset=UTF8';
-            self::$instance = new PDO($dsn, USER, PASS, $opt);
+            self::$instance = new \PDO($dsn, USER, PASS, $opt);
         }
         return self::$instance;
     }
