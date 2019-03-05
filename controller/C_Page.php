@@ -24,11 +24,9 @@ class C_Page extends C_Model
 
     public function action_index()
     {
-        $goodNumber = $this->count * 5;
-        $viewRange = "LIMIT $goodNumber";
-        $sql = "SELECT * FROM products JOIN images on products.img_id = images.img_id $viewRange";
-        $result = $this->db::getRows($sql);
-        $this->render('gallery.tmpl', $result);
+        $sql = "SELECT * FROM goods";
+        $goods = $this->db::getRows($sql);
+        $this->render('index.tmpl', $goods);
     }
 }
 

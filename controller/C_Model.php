@@ -15,7 +15,7 @@ class C_Model
             $this->user = $_SESSION['login'];
         }
         try {
-            $loader = new \Twig_Loader_Filesystem(ROOT_DIR . '/templates/templates');
+            $loader = new \Twig_Loader_Filesystem(ROOT_DIR . '/templates');
             $twig = new \Twig_Environment($loader);
             $template = $twig->loadTemplate($template);
             echo $template->render(array(

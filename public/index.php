@@ -1,7 +1,7 @@
 <?php
 include("../config/config.php");
 include("../lib/Autoloader.php");
-spl_autoload_register([new \app\services\Autoloader(), 'loadClass']);
+spl_autoload_register([new \app\lib\Autoloader(), 'loadClass']);
 
 include '../templates/Twig/Autoloader.php';
 Twig_Autoloader::register();

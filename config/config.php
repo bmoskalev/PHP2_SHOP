@@ -6,6 +6,6 @@ define('DRIVER', 'mysql');
 define('HOST', 'localhost');
 define('USER', 'root');
 define('PASS', '');
-define('DBName', 'gallery');
+define('DBName', 'catalog');
 
-define('DB', '\app\services\Db');
+define('DB', '\app\lib\Db');
