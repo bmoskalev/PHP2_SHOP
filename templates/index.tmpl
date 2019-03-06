@@ -10,6 +10,7 @@
             crossorigin="anonymous"></script>
 
 </head>
+{% include 'header.tmpl' %}
 <body>
 <main>
     <div class='goodsTable'>
@@ -23,10 +24,10 @@
                 </div>
                 {% elseif good.stickerHit == 1 %}
                 <div class="sticker"><img class="stickerImg" src="/public/css/star.png"><span class="stickerTextHit">Hit!</span>
-                {% endif %}
                 </div>
+                {% endif %}
                 <div class="wrapGoodImg">
-                    <a href="item.php?photo={{ good.bigPhoto }}&id={{ good.id }}"><img class='goodImg'
+                    <a href="index.php?c=item&id={{ good.id }}"><img class='goodImg'
                                                                                        src="{{ good.miniPhoto }}"></a>
                 </div>
                 <div class="wrapGoodInfo">
@@ -49,7 +50,6 @@
         {% include 'footer.tmpl' %}
     </footer>
     <script src='../js/my.js' defer></script>
-    ;
 </main>
 </body>
 </html>

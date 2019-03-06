@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Работа с файлами</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/my_shop/public/css/styles.css" type="text/css" media="all">
+</head>
+{% include 'header.tmpl' %}
+<body>
+<div class='goodsWrapItem'>
+
+    <div class="wrapGoodImgItem">
+        <img class='goodImg' src="{{ param.bigPhoto }}">
+    </div>
+    <div class="wrapGoodInfo">
+        <div class='goodsNameFull'>{{ param.nameFull }}</div>
+        <div class='goodsPriceItem'>{{ param.price }}<b>&#8381;</b></div>
+        <div class='goodsParam'><span><b>Состав: </b></span>{{ param.param }}</div>
+        <div class='goodsWeightItem'><span><b>Вес: </b></span>{{ param.weight }} гр./порцию</div>
+        {% if param.discount>0 %}
+        <div class="stickerItem"><img class="stickerImgItem" src="css/star.png"><span class="stickerTextItem">{{ param.discount }}%</span><div class="explain">    блюдо со скидкой дня {{ param.discount }}%</div></div>
+        {% endif %}
+        {% if param.stickerFit == 1 %}
+        <div class="stickerItem"><img class="stickerImgItem" src="css/star.png"><span class="stickerTextItem">Fit!</span> <div class="explain">     блюдо с низкой калорийностью</div></div>
+        {% endif %}
+        {% if param.stickerHit == 1 %}
+        <div class="stickerItem"><img class="stickerImgItem" src="css/star.png"><span class="stickerTextItem">Hit!</span><div class="explain">    популярное блюдо</div></div>
+        {% endif %}
+    </div>
+    <div class="btnWrapItem">
+        <input type='button' class='addToBasket btn' value='Дoбавить в корзину' onclick="addToBasket({{ param.id }})" data-id='{{ param.id }}'>
+        <input type='button' class='deleteToBasket btn' value='Удалить из корзины' onclick="deleteToBasket({{ param.id }})" data-id='{{ param.id }}'>
+    </div>
+</div>
+
+
+<footer>
+    {% include 'footer.tmpl' %}
+</footer>
+<script src='../js/my.js'></script>
+</body>
+</html>
