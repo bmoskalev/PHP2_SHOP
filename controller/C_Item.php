@@ -12,17 +12,18 @@ namespace app\controller;
 class C_Item extends C_Model
 {
     private $id;
-    private $product;
+    private $item;
 
     public function __construct($id){
         $this->id = (int) $id;
+        self::updateItem();
     }
     protected function updateItem(){
         $this->db::update("UPDATE goods SET views = views + 1 WHERE id = $this->id");
-        $this->product = $this->db::getRow("SELECT * FROM goods WHERE id = $this->id");
+        $this->item = $this->db::getRow("SELECT * FROM goods WHERE id = $this->id");
     }
     public function action_index(){
-        self::updateItem();
+
 //        $img = $this->db::getRow("SELECT * FROM images WHERE img_id = {$this->product['img_id']}");
 //        $src = $img['main_dir'] . "/" . $img['main_name'];
 //        $count = $this->product['views'];
@@ -40,6 +41,11 @@ class C_Item extends C_Model
 //        ]
             $this->product
         );
+    }
+
+    public function getItem()
+    {
+        return $this->item;
     }
 }
 

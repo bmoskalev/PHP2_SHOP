@@ -17,6 +17,6 @@ if (isset($_GET['c'])) {
 
 $id = (isset($_GET['id'])) ? (int)$_GET['id'] : '';
 
-$controller = new $controllerName($id);
+$controller = new $controllerName();
 
-$controller->$action();
+$controller->$action($id);

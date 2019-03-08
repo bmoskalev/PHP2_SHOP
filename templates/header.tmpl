@@ -33,17 +33,16 @@
                     <a class="nav-link" href="  /public/guestbook.php">Отзывы</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="  /public/promo.php">Акции</a>
+                    <a class="nav-link" href="index.php?c=page&act=actions">Акции</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="  /public/contact.php">Контакты</a>
+                    <a class="nav-link" href="index.php?c=page&act=contacts">Контакты</a>
                 </li>
-                <?php
                 {% if user != '' %}
                 <li class='nav-item'><a class='nav-link' href='  /public/login.php?action=profile'>Кабинет</a></li>
                 <li class='nav-item'><a class='nav-link' href='  /public/login.php?action=logout'>Выйти ($_SESSION[login])</a></li>
                 {% else %}
-                <li class='nav-item'><a class='nav-link' href='  /public/login.php'><u>Войти</u></a></li>
+                <li class='nav-item'><a class='nav-link' href='index.php?c=page&act=login'><u>Войти</u></a></li>
                 <li class='nav-item'><a class='nav-link' href='  /public/reg.php'><u>Регистрация</u></a></li>
                 {% endif %}
                 {% if user == 'admin' %}

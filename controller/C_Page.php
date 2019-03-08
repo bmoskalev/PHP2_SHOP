@@ -28,6 +28,26 @@ class C_Page extends C_Model
         $goods = $this->db::getRows($sql);
         $this->render('index.tmpl', $goods);
     }
+
+    public function action_item($id)
+    {
+        $item= new C_Item($id);
+        $this->render('item.tmpl', $item->getItem());
+    }
+    public function action_actions()
+    {
+        $this->render('actions.tmpl');
+    }
+
+    public function action_contacts()
+    {
+        $this->render('contacts.tmpl');
+    }
+
+    public function action_login()
+    {
+        $this->render('login.tmpl');
+    }
 }
 
 

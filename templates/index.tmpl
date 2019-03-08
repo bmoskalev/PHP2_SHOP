@@ -10,9 +10,9 @@
             crossorigin="anonymous"></script>
 
 </head>
-{% include 'header.tmpl' %}
 <body>
 <main>
+    {% include 'header.tmpl' %}
     <div class='goodsTable'>
         {% for good in param %}
             <div class='goodsWrap'>
@@ -27,7 +27,7 @@
                 </div>
                 {% endif %}
                 <div class="wrapGoodImg">
-                    <a href="index.php?c=item&id={{ good.id }}"><img class='goodImg'
+                    <a href="index.php?c=page&act=item&id={{ good.id }}"><img class='goodImg'
                                                                                        src="{{ good.miniPhoto }}"></a>
                 </div>
                 <div class="wrapGoodInfo">
@@ -44,8 +44,6 @@
             </div>
         {% endfor %}
     </div>
-
-
     <footer>
         {% include 'footer.tmpl' %}
     </footer>
