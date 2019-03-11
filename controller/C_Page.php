@@ -48,6 +48,19 @@ class C_Page extends C_Model
     {
         $this->render('login.tmpl');
     }
+
+    public function action_registration()
+    {
+        $this->render('registration.tmpl');
+    }
+
+    public function action_comments()
+    {
+        $sql = "SELECT * FROM comment";
+        $comments = $this->db::getRows($sql);
+        $this->render('comments.tmpl',$comments);
+    }
+
 }
 
 

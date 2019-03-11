@@ -5,7 +5,7 @@ spl_autoload_register([new \app\lib\Autoloader(), 'loadClass']);
 
 include '../templates/Twig/Autoloader.php';
 Twig_Autoloader::register();
-
+session_start();
 $action = 'action_';
 $action .= (isset($_GET['act'])) ? $_GET['act'] : 'index';
 

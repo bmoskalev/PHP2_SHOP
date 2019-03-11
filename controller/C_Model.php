@@ -11,6 +11,7 @@ class C_Model
 
     public function render($template, $params=[]){
         $this->user = $_SESSION['login'];
+        echo $this->user;
         if (isset($_SESSION['login'])) {
             $this->user = $_SESSION['login'];
         }
