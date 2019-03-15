@@ -62,7 +62,7 @@ class C_User extends C_Model
         $password = md5(trim(strip_tags($_POST['pass'])));
         if ($user = $this->db::getRow("SELECT * FROM users WHERE login = '{$login}' AND pass = '{$password}'")) {
             $_SESSION['login'] = $login;
-            header("Location: index.php?c=page&act=login");
+            header("Location: index.php?{$_SESSION['uri']}");
         } else {
             header("Location: index.php?c=page&act=login");
             echo "<div class='login_message'>Логин или пароль введены неправильно!</div><br>";

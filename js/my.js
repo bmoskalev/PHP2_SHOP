@@ -66,7 +66,7 @@ function renderBasketModal() {
 function addToBasket(idGood) {
     var str = "addBasketid=" + idGood;
     $.ajax({
-        url: '../controllers/Basket.php', // путь к php-обработчику
+        url: 'index.php?c=basket&act=item&id={{ good.id }}', // путь к php-обработчику
         type: 'POST', // метод передачи данных
         dataType: 'json', // тип ожидаемых данных в ответе
         data: str, // данные, которые передаем на сервер
