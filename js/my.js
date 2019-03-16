@@ -33,7 +33,7 @@ function renderAllGoods() {
 function renderBasketModal() {
     // var str = "getBasketGoods=" + '1';
     $.ajax({
-        url: '../public/index.php?c=basket&act=getBasketGoods', // путь к php-обработчику
+        url: 'index.php?c=basket&act=getBasketGoods', // путь к php-обработчику
         type: 'POST', // метод передачи данных
         dataType: 'json', // тип ожидаемых данных в ответе
         // data: str, // данные, которые передаем на сервер
