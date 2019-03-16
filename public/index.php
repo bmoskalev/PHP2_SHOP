@@ -20,5 +20,6 @@ $action = 'action_' . ((isset($_GET['act'])) ? $_GET['act'] : 'index');
 $id = (isset($_GET['id'])) ? (int)$_GET['id'] : '';
 
 $controller = new $controllerName();
-
+print_r($controller);
+print_r($action);
 $controller->$action($id);

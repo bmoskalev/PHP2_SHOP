@@ -1,5 +1,5 @@
 function renderAllGoods() {
-    var str = "getAllGoods=" + '1';
+    const str = "getAllGoods=" + '1';
     $.ajax({
         url: '../controllers/Admin.php', // путь к php-обработчику
         type: 'POST', // метод передачи данных
@@ -10,9 +10,9 @@ function renderAllGoods() {
         },
         success: function (dateAnswer) {
             console.log(dateAnswer);
-            var table = '<table class="table table-hover"><thead><tr><th scope="col">Наименование</th><th scope="col">Количество</th><th scope="col">Сумма</th></tr></thead><tbody >';
-            var i = 0;
-            for (var key in dateAnswer) {
+            let table = '<table class="table table-hover"><thead><tr><th scope="col">Наименование</th><th scope="col">Количество</th><th scope="col">Сумма</th></tr></thead><tbody >';
+            let i = 0;
+            for (let key in dateAnswer) {
                 table += '<tr class="rowGoods' + dateAnswer[key].id + '">';
                 table += '<th>' + dateAnswer[key].nameFull + '</th>';
                 table += '<td><i class="fas fa-plus addToBasket" onclick="addToBasket(' + dateAnswer[key].id + ')" data-id=' + dateAnswer[key].id + '></i>';
@@ -22,8 +22,8 @@ function renderAllGoods() {
                 i++;
             }
             table += $('</table>');
-            var modal = $('.modal-body');
-            $('.modal-body').empty();
+            const modal = $('.modal-body');
+            modal.empty();
             modal.append(table);
         }
     });
@@ -31,45 +31,47 @@ function renderAllGoods() {
 
 
 function renderBasketModal() {
-    var str = "getBasketGoods=" + '1';
+    // var str = "getBasketGoods=" + '1';
     $.ajax({
-        url: '../controllers/Basket.php', // путь к php-обработчику
+        url: '../public/index.php?c=basket&act=getBasketGoods', // путь к php-обработчику
         type: 'POST', // метод передачи данных
         dataType: 'json', // тип ожидаемых данных в ответе
-        data: str, // данные, которые передаем на сервер
+        // data: str, // данные, которые передаем на сервер
         error: function (req, text, error) { // отслеживание ошибок во время выполнения ajax-запроса
             alert('Хьюстон, У нас проблемы! ' + text + ' | ' + error);
         },
         success: function (dateAnswer) {
-			var sumGood = 0;
-            var table = '<table class="table table-hover"><thead><tr><th scope="col">Наименование</th><th scope="col">Количество</th><th scope="col">Сумма</th></tr></thead><tbody >';
-            for (var key in dateAnswer) {
-				sumGood += dateAnswer[key].count * dateAnswer[key].price;
-                table += '<tr class="rowGoods' + dateAnswer[key].id + '">';
-                table += '<th>' + dateAnswer[key].nameFull + '</th>';
-                table += '<td><div class="countModal"><div class="simbolModal"><i class="fas fa-plus" onclick="addToBasket(' + dateAnswer[key].id + ')" data-id=' + dateAnswer[key].id + '></i></div>';
-                table += '<div class="basketOneCount' + dateAnswer[key].id + '">' + dateAnswer[key].count + '</div>';
-                table += '<div class="simbolModal"><i class="fas fa-minus" onclick="deleteToBasket(' + dateAnswer[key].id + ')" data-id=' + dateAnswer[key].id + '></i></div></div></td>';
-                table += '<td><div class="basketOneSum' + dateAnswer[key].id + '">' + dateAnswer[key].count * dateAnswer[key].price + '</div></td></tr>';
-            };
-			table += '<tr class="">';
-                table += '<td></td><th>Сумма заказа</th>';
-                table += '<td><div class="bascketTotalSum">'+sumGood+'</div></td></tr>';
-            table += ('</table>');
-            var modal = $('.modal-body');
-            modal.empty();
-            modal.append(table);
+            console.log("Вызов");
+            // let sumGood = 0;
+            // let table = '<table class="table table-hover"><thead><tr><th scope="col">Наименование</th><th scope="col">Количество</th><th scope="col">Сумма</th></tr></thead><tbody >';
+            // for (let key in dateAnswer) {
+			// 	sumGood += dateAnswer[key].count * dateAnswer[key].price;
+            //     table += '<tr class="rowGoods' + dateAnswer[key].id + '">';
+            //     table += '<th>' + dateAnswer[key].nameFull + '</th>';
+            //     table += '<td><div class="countModal"><div class="simbolModal"><i class="fas fa-plus" onclick="addToBasket(' + dateAnswer[key].id + ')" data-id=' + dateAnswer[key].id + '></i></div>';
+            //     table += '<div class="basketOneCount' + dateAnswer[key].id + '">' + dateAnswer[key].count + '</div>';
+            //     table += '<div class="simbolModal"><i class="fas fa-minus" onclick="deleteToBasket(' + dateAnswer[key].id + ')" data-id=' + dateAnswer[key].id + '></i></div></div></td>';
+            //     table += '<td><div class="basketOneSum' + dateAnswer[key].id + '">' + dateAnswer[key].count * dateAnswer[key].price + '</div></td></tr>';
+            // }
+			// table += '<tr class="">';
+            //     table += '<td></td><th>Сумма заказа</th>';
+            //     table += '<td><div class="bascketTotalSum">'+sumGood+'</div></td></tr>';
+            // table += ('</table>');
+            // const modal = $('.modal-body');
+            // modal.empty();
+            // modal.append(table);
         }
     });
 };
 
 function addToBasket(idGood) {
-    var str = "addBasketid=" + idGood;
+    // var str = "addBasketid=" + idGood;
+    alert('index.php?c=basket&act=addToBasket&id=' + idGood);
     $.ajax({
-        url: 'index.php?c=basket&act=item&id={{ good.id }}', // путь к php-обработчику
+        url: 'index.php?c=basket&act=addToBasket&id=' + idGood, // путь к php-обработчику
         type: 'POST', // метод передачи данных
         dataType: 'json', // тип ожидаемых данных в ответе
-        data: str, // данные, которые передаем на сервер
+        // data: str, // данные, которые передаем на сервер
         error: function (req, text, error) { // отслеживание ошибок во время выполнения ajax-запроса
             alert('Хьюстон, У нас проблемы! ' + text + ' | ' + error);
         },
@@ -85,7 +87,7 @@ function addToBasket(idGood) {
 };
 
 function deleteToBasket(idGood) {
-    var str = "deleteToBasketid=" + idGood;
+    const str = "deleteToBasketid=" + idGood;
     $.ajax({
         url: '../controllers/Basket.php', // путь к php-обработчику
         type: 'POST', // метод передачи данных
@@ -113,7 +115,7 @@ function deleteToBasket(idGood) {
 };
 
 function renderAdminAjax() {
-    var str = "renderAdminAjax=" + '1';
+    const str = "renderAdminAjax=" + '1';
     $.ajax({
         url: '../controllers/Admin.php', // путь к php-обработчику
         type: 'POST', // метод передачи данных
@@ -123,8 +125,8 @@ function renderAdminAjax() {
             alert('Хьюстон, У нас проблемы! ' + text + ' | ' + error);
         },
         success: function (dateAnswer) {
-		var table = '<div class="headTable"><div class="headerCell id">Id</div><div class="headerCell nameFull">Hаименование</div><div class="headerCell price">Цена</div><div class="headerCell param">Состав</div><div class="headerCell weight">Вес</div><div class="headerCell discount">скидка</div><div class="headerCell loadFile">Загрузить фото</div><div class="headerCell stickerAdmin">Fit</div><div class="headerCell stickerAdmin">Hit</div><div class="headerCell views">просмотры</div><div class="headerCell operation">Операции</div></div>';
-            for (var key in dateAnswer) {
+            let table = '<div class="headTable"><div class="headerCell id">Id</div><div class="headerCell nameFull">Hаименование</div><div class="headerCell price">Цена</div><div class="headerCell param">Состав</div><div class="headerCell weight">Вес</div><div class="headerCell discount">скидка</div><div class="headerCell loadFile">Загрузить фото</div><div class="headerCell stickerAdmin">Fit</div><div class="headerCell stickerAdmin">Hit</div><div class="headerCell views">просмотры</div><div class="headerCell operation">Операции</div></div>';
+            for (let key in dateAnswer) {
                 table += '<form class="formAdmin" id="form' + dateAnswer[key].id + '" onsubmit="editGood(' + dateAnswer[key].id + ')" action="javascript:void(null);" method="POST" enctype="multipart/form-data">';
 				table += '<div class="rowCell  id" name="id">' + dateAnswer[key].id + '</div>';
                 table += '<input type="hidden" name="id" value="' + dateAnswer[key].id + '">';
@@ -148,7 +150,7 @@ function renderAdminAjax() {
 				table += '<div class="rowCell views">' + dateAnswer[key].views + '</div>';
                 table += '<input class="btnAdmin" type="submit" value="Сохранить"><button class="btnAdmin" onclick="deleteGood(' + dateAnswer[key].id + ')" >Удалить</button></form>';
             }
-            var tableGoodsAdmin = $('.mainTable');
+            const tableGoodsAdmin = $('.mainTable');
             tableGoodsAdmin.empty();
             tableGoodsAdmin.append(table);
         }
@@ -157,8 +159,8 @@ function renderAdminAjax() {
 
 function addNewGood() {
     //preventDefault(); // делаем отмену действия браузера и формируем ajax
-   var str = "addNewGood=" + 1;
-   
+    const str = "addNewGood=" + 1;
+
     // данные с формы завернем в переменную для ajax
     $.ajax({
         type: 'POST', // тип запроса
@@ -178,7 +180,7 @@ function addNewGood() {
 
 function scanDirLoadFiles() {
     //preventDefault(); // делаем отмену действия браузера и формируем ajax
-   var str = "scanDirLoadFiles=" + 1;
+    const str = "scanDirLoadFiles=" + 1;
     // данные с формы завернем в переменную для ajax
     $.ajax({
         type: 'POST', // тип запроса
@@ -202,7 +204,7 @@ function scanDirLoadFiles() {
 function editGood(idGood) {
     //preventDefault(); // делаем отмену действия браузера и формируем ajax
     //var formData = $('#form'+idGood).serialize();
-    var formData = new FormData($('#form' + idGood)[0]);
+    const formData = new FormData($('#form' + idGood)[0]);
     console.log(formData);
     // данные с формы завернем в переменную для ajax
     $.ajax({
@@ -227,7 +229,7 @@ function editGood(idGood) {
 };
 
 function deleteGood(id) {
-    var str = "deleteGoodid=" + id;
+    const str = "deleteGoodid=" + id;
     $.ajax({
         url: '../controllers/Admin.php', // путь к php-обработчику
         type: 'POST', // метод передачи данных
@@ -243,7 +245,7 @@ function deleteGood(id) {
 };
 
 function dbCreateOrder() {
-    var str = "dbCreateOrder=" +1;
+    const str = "dbCreateOrder=" + 1;
     $.ajax({
         url: '../controllers/Basket.php', // путь к php-обработчику
         type: 'POST', // метод передачи данных
@@ -260,7 +262,7 @@ function dbCreateOrder() {
 
 
 function renderOrder() {
-    var str = "renderOrder=" + '1';
+    const str = "renderOrder=" + '1';
     $.ajax({
         url: '../controllers/Basket.php', // путь к php-обработчику
         type: 'POST', // метод передачи данных
@@ -270,14 +272,14 @@ function renderOrder() {
             alert('Хьюстон, У нас проблемы! ' + text + ' | ' + error);
         },
         success: function (dateAnswer) {
-			
-					var sumGood = 0;
-			var sumGoodDiscount=0;
-			var happyHours;
-			var delivery;
-			var dateAnswerBasket = dateAnswer[0];
-			var dateAnswerClient = dateAnswer[1];
-			console.log(dateAnswerBasket);
+
+            let sumGood = 0;
+            let sumGoodDiscount = 0;
+            let happyHours;
+            let delivery;
+            const dateAnswerBasket = dateAnswer[0];
+            const dateAnswerClient = dateAnswer[1];
+            console.log(dateAnswerBasket);
 			console.log(dateAnswerClient);
 			for (var key in dateAnswerBasket) {
 				sumGood += dateAnswerBasket[key].count * dateAnswerBasket[key].price;
@@ -289,10 +291,10 @@ function renderOrder() {
             };
 				
 			if	(dateAnswerClient[0]!=null) {
-				var date = new Date(dateAnswerClient[0].timeOrder*1000);// Hours part from the timestamp
-			var hours = date.getHours();// Minutes part from the timestamp
-			var minutes = "0" + date.getMinutes();// Seconds part from the timestamp
-			var formattedTime = hours + ':' + minutes.substr(-2);// Will display time in 10:30:23 format
+                const date = new Date(dateAnswerClient[0].timeOrder * 1000);// Hours part from the timestamp
+                const hours = date.getHours();// Minutes part from the timestamp
+                const minutes = "0" + date.getMinutes();// Seconds part from the timestamp
+                const formattedTime = hours + ':' + minutes.substr(-2);// Will display time in 10:30:23 format
 			
 			if(hours>=0 && hours<=7) {
 					happyHours = sumGoodDiscount*7/100;
@@ -308,9 +310,9 @@ function renderOrder() {
 				    delivery=sumGoodDiscount*10/100;
 			   };
 			};
-			   
-			   var totalCoast = Math.floor(sumGoodDiscount-happyHours-delivery);
-            var table = '<table class="table table-hover table-bordered"><thead><tr><th scope="col">Наименование</th><th scope="col">Количество</th><th scope="col">Цена</th><th scope="col">Сумма</th><th scope="col">Скидка</th><th scope="col">Сумма c учетом скидки</th></tr></thead><tbody >';
+
+            const totalCoast = Math.floor(sumGoodDiscount - happyHours - delivery);
+            let table = '<table class="table table-hover table-bordered"><thead><tr><th scope="col">Наименование</th><th scope="col">Количество</th><th scope="col">Цена</th><th scope="col">Сумма</th><th scope="col">Скидка</th><th scope="col">Сумма c учетом скидки</th></tr></thead><tbody >';
             for (var key in dateAnswerBasket) {
                 table += '<tr class="rowGoods' + dateAnswerBasket[key].id + '">';
                 table += '<td>' + dateAnswerBasket[key].nameFull + '</td>';
@@ -339,11 +341,11 @@ function renderOrder() {
                 table += '<tr><th colspan="5">Сумма к оплате</th>';
                 table += '<th>'+totalCoast+'</th></tr>';
             table += ('</table>');
-			
-            var modal = $('.orderModalBody');
+
+            const modal = $('.orderModalBody');
             modal.empty();
             modal.append(table);
-            var orderTable = $('.orderTable');
+            const orderTable = $('.orderTable');
             orderTable.empty();
 			if(dateAnswerBasket.length==0) {
 				$(orderTable).text('В корзине пусто!');
@@ -355,7 +357,7 @@ function renderOrder() {
 };
 
 function addToOrder(idGood) {
-    var str = "addToOrderid=" + idGood;
+    const str = "addToOrderid=" + idGood;
     $.ajax({
         url: '../controllers/Basket.php', // путь к php-обработчику
         type: 'POST', // метод передачи данных
@@ -376,7 +378,7 @@ function addToOrder(idGood) {
 };
 
 function deleteToOrder(idGood) {
-    var str = "deleteToOrderid=" + idGood;
+    const str = "deleteToOrderid=" + idGood;
     $.ajax({
         url: '../controllers/Basket.php', // путь к php-обработчику
         type: 'POST', // метод передачи данных
@@ -403,7 +405,7 @@ function deleteToOrder(idGood) {
 
 
 function deliveryCheck(x) {
-	var str = "deliveryCheck=" + x;
+    const str = "deliveryCheck=" + x;
     $.ajax({
         url: '../controllers/Basket.php', // путь к php-обработчику
         type: 'POST', // метод передачи данных
@@ -419,8 +421,8 @@ function deliveryCheck(x) {
 }
 
 function sendOrder() {
-	var formData = $('.formOrder').serialize();
-	console.log(formData);
+    const formData = $('.formOrder').serialize();
+    console.log(formData);
     $.ajax({
         url: '../controllers/Basket.php', // путь к php-обработчику
         type: 'POST', // метод передачи данных
@@ -443,7 +445,7 @@ function sendOrder() {
 
 
 function renderManager() {
-    var str = "renderManager=" + '1';
+    const str = "renderManager=" + '1';
     $.ajax({
         url: '../controllers/Basket.php', // путь к php-обработчику
         type: 'POST', // метод передачи данных
@@ -453,11 +455,11 @@ function renderManager() {
             alert('Хьюстон, У нас проблемы! ' + text + ' | ' + error);
         },
         success: function (dateAnswer) {
-			var sumGood = 0;
-			var sumGoodDiscount=0;
-			var happyHours;
-			var delivery;
-			for (var key in dateAnswer) {
+            let sumGood = 0;
+            let sumGoodDiscount = 0;
+            let happyHours;
+            let delivery;
+            for (var key in dateAnswer) {
 				sumGood += dateAnswer[key].count * dateAnswer[key].price;
 				if(dateAnswer[key].discount>0) {
 					sumGoodDiscount += dateAnswer[key].count * dateAnswer[key].price * ((100-dateAnswer[key].discount)/100);
@@ -465,11 +467,11 @@ function renderManager() {
 					sumGoodDiscount += dateAnswer[key].count * dateAnswer[key].price;
 				};				
             };
-						
-			var date = new Date(dateAnswer[0].timeOrder*1000);// Hours part from the timestamp
-			var hours = date.getHours();// Minutes part from the timestamp
-			var minutes = "0" + date.getMinutes();// Seconds part from the timestamp
-			var formattedTime = hours + ':' + minutes.substr(-2);// Will display time in 10:30:23 format
+
+            const date = new Date(dateAnswer[0].timeOrder * 1000);// Hours part from the timestamp
+            const hours = date.getHours();// Minutes part from the timestamp
+            const minutes = "0" + date.getMinutes();// Seconds part from the timestamp
+            const formattedTime = hours + ':' + minutes.substr(-2);// Will display time in 10:30:23 format
 			
 			if(hours>=0 && hours<=7) {
 					happyHours = sumGoodDiscount*7/100;
@@ -482,11 +484,11 @@ function renderManager() {
 			   } else {
 				    delivery=sumGoodDiscount*10/100;
 			   };
-			   
-			   var totalCoast = Math.floor(sumGoodDiscount-happyHours-delivery);
-						
-            var table = '<table class="table table-hover table-bordered"><thead><tr><th scope="col">#</th><th scope="col">Заказ</th><th scope="col">Сумма к оплате</th><th scope="col">Время заказа</th><th scope="col">Сдача с купюры</th><th scope="col">Способ оплаты</th><th scope="col">Доставка/самовывоз</th><th scope="col">Заказ на время</th><th scope="col">Телефон</th><th scope="col">Дисконтная карта</th><th scope="col">Персон</th><th scope="col">Адрес</th><th scope="col">Комментарий</th></tr></thead><tbody>';
-			table += '<tr><th scope="row">'+dateAnswer[0].idClient+'</th>';
+
+            const totalCoast = Math.floor(sumGoodDiscount - happyHours - delivery);
+
+            let table = '<table class="table table-hover table-bordered"><thead><tr><th scope="col">#</th><th scope="col">Заказ</th><th scope="col">Сумма к оплате</th><th scope="col">Время заказа</th><th scope="col">Сдача с купюры</th><th scope="col">Способ оплаты</th><th scope="col">Доставка/самовывоз</th><th scope="col">Заказ на время</th><th scope="col">Телефон</th><th scope="col">Дисконтная карта</th><th scope="col">Персон</th><th scope="col">Адрес</th><th scope="col">Комментарий</th></tr></thead><tbody>';
+            table += '<tr><th scope="row">'+dateAnswer[0].idClient+'</th>';
 				table += '<td><button type="button" onclick="renderManagerModalOrder()" class="btn btn-primary" data-toggle="modal" data-target="#orderModal">Детали заказа</button></td>';
 				table += '<td>'+totalCoast+'</td>';
 				table += '<td>'+formattedTime+'</td>';
@@ -508,7 +510,7 @@ function renderManager() {
 				table += '<td>'+dateAnswer[0].address+'</td>';
 				table += '<td>'+dateAnswer[0].comment+'</td></tr><tbody>';
             table += ('</table>');
-            var mainTableManager = $('.mainTableManager');
+            const mainTableManager = $('.mainTableManager');
             mainTableManager.empty();
             mainTableManager.append(table);
         }
@@ -516,7 +518,7 @@ function renderManager() {
 };
 
 function renderManagerModalOrder() {
-	var str = "renderManager=" + '1';
+    const str = "renderManager=" + '1';
     $.ajax({
         url: '../controllers/Basket.php', // путь к php-обработчику
         type: 'POST', // метод передачи данных
@@ -526,11 +528,11 @@ function renderManagerModalOrder() {
             alert('Хьюстон, У нас проблемы! ' + text + ' | ' + error);
         },
         success: function (dateAnswer) {
-			var sumGood = 0;
-			var sumGoodDiscount=0;
-			var happyHours;
-			var delivery;
-			for (var key in dateAnswer) {
+            let sumGood = 0;
+            let sumGoodDiscount = 0;
+            let happyHours;
+            let delivery;
+            for (var key in dateAnswer) {
 				sumGood += dateAnswer[key].count * dateAnswer[key].price;
 				if(dateAnswer[key].discount>0) {
 					sumGoodDiscount += dateAnswer[key].count * dateAnswer[key].price * ((100-dateAnswer[key].discount)/100);
@@ -538,11 +540,11 @@ function renderManagerModalOrder() {
 					sumGoodDiscount += dateAnswer[key].count * dateAnswer[key].price;
 				};				
             };
-						
-			var date = new Date(dateAnswer[0].timeOrder*1000);// Hours part from the timestamp
-			var hours = date.getHours();// Minutes part from the timestamp
-			var minutes = "0" + date.getMinutes();// Seconds part from the timestamp
-			var formattedTime = hours + ':' + minutes.substr(-2);// Will display time in 10:30:23 format
+
+            const date = new Date(dateAnswer[0].timeOrder * 1000);// Hours part from the timestamp
+            const hours = date.getHours();// Minutes part from the timestamp
+            const minutes = "0" + date.getMinutes();// Seconds part from the timestamp
+            const formattedTime = hours + ':' + minutes.substr(-2);// Will display time in 10:30:23 format
 			
 			if(hours>=0 && hours<=7) {
 					happyHours = sumGoodDiscount*7/100;
@@ -555,10 +557,10 @@ function renderManagerModalOrder() {
 			   } else {
 				    delivery=sumGoodDiscount*10/100;
 			   };
-			   
-			   var totalCoast = Math.floor(sumGoodDiscount-happyHours-delivery);
-			   
-            var table = '<table class="table table-hover table-bordered"><thead><tr><th scope="col">Наименование</th><th scope="col">Количество</th><th scope="col">Цена</th><th scope="col">Сумма</th><th scope="col">Скидка</th><th scope="col">Сумма c учетом скидки</th></tr></thead><tbody >';
+
+            const totalCoast = Math.floor(sumGoodDiscount - happyHours - delivery);
+
+            let table = '<table class="table table-hover table-bordered"><thead><tr><th scope="col">Наименование</th><th scope="col">Количество</th><th scope="col">Цена</th><th scope="col">Сумма</th><th scope="col">Скидка</th><th scope="col">Сумма c учетом скидки</th></tr></thead><tbody >';
             for (var key in dateAnswer) {
                 table += '<tr class="rowGoods' + dateAnswer[key].id + '">';
                 table += '<td>' + dateAnswer[key].nameFull + '</td>';
@@ -585,7 +587,7 @@ function renderManagerModalOrder() {
                 table += '<tr><th colspan="5">Сумма к оплате</th>';
                 table += '<th>'+totalCoast+'</th></tr>';
             table += ('</table>');
-            var modal = $('.orderModalBody');
+            const modal = $('.orderModalBody');
             modal.empty();
             modal.append(table);
         }
@@ -593,7 +595,7 @@ function renderManagerModalOrder() {
 };
 
 function renderOrderEnd() {
-   var str = "renderManager=" + '1';
+    const str = "renderManager=" + '1';
     $.ajax({
         url: '../controllers/Basket.php', // путь к php-обработчику
         type: 'POST', // метод передачи данных
@@ -603,11 +605,11 @@ function renderOrderEnd() {
             alert('Хьюстон, У нас проблемы! ' + text + ' | ' + error);
         },
         success: function (dateAnswer) {
-			var sumGood = 0;
-			var sumGoodDiscount=0;
-			var happyHours;
-			var delivery;
-			for (var key in dateAnswer) {
+            let sumGood = 0;
+            let sumGoodDiscount = 0;
+            let happyHours;
+            let delivery;
+            for (var key in dateAnswer) {
 				sumGood += dateAnswer[key].count * dateAnswer[key].price;
 				if(dateAnswer[key].discount>0) {
 					sumGoodDiscount += dateAnswer[key].count * dateAnswer[key].price * ((100-dateAnswer[key].discount)/100);
@@ -615,11 +617,11 @@ function renderOrderEnd() {
 					sumGoodDiscount += dateAnswer[key].count * dateAnswer[key].price;
 				};				
             };
-						
-			var date = new Date(dateAnswer[0].timeOrder*1000);// Hours part from the timestamp
-			var hours = date.getHours();// Minutes part from the timestamp
-			var minutes = "0" + date.getMinutes();// Seconds part from the timestamp
-			var formattedTime = hours + ':' + minutes.substr(-2);// Will display time in 10:30:23 format
+
+            const date = new Date(dateAnswer[0].timeOrder * 1000);// Hours part from the timestamp
+            const hours = date.getHours();// Minutes part from the timestamp
+            const minutes = "0" + date.getMinutes();// Seconds part from the timestamp
+            const formattedTime = hours + ':' + minutes.substr(-2);// Will display time in 10:30:23 format
 			
 			if(hours>=0 && hours<=7) {
 					happyHours = sumGoodDiscount*7/100;
@@ -632,10 +634,10 @@ function renderOrderEnd() {
 			   } else {
 				    delivery=sumGoodDiscount*10/100;
 			   };
-			   
-			   var totalCoast = Math.floor(sumGoodDiscount-happyHours-delivery);
-			   
-            var table = '<table class="table "><thead><tr><th scope="col">Наименование</th><th scope="col">Количество</th></tr></thead><tbody >';
+
+            const totalCoast = Math.floor(sumGoodDiscount - happyHours - delivery);
+
+            let table = '<table class="table "><thead><tr><th scope="col">Наименование</th><th scope="col">Количество</th></tr></thead><tbody >';
             for (var key in dateAnswer) {
                 table += '<tr><td>' + dateAnswer[key].nameFull + '</td>';
                 table += '<td>' + dateAnswer[key].count + '</td>';
@@ -652,8 +654,8 @@ function renderOrderEnd() {
 			   };
 			    table += ('</table>');
 			    table += '<div class="thanks">Ваш заказ поступил в обработку!<br> В ближайшее время с Вами свяжется менеджер для подтверждения и уточнения заказа.<br> Спасибо что выбрали нас!</div>';
-           
-            var orderTableEnd = $('.orderTableEnd');
+
+            const orderTableEnd = $('.orderTableEnd');
             orderTableEnd.empty();
             orderTableEnd.append(table);
         }

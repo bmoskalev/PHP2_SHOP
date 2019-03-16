@@ -5,30 +5,29 @@
     <title>Catalog</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
-            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-            crossorigin="anonymous"></script>
 
 </head>
 <body>
+{% include 'header.tmpl' %}
 <main>
-    {% include 'header.tmpl' %}
     <div class='goodsTable'>
         {% for good in param %}
             <div class='goodsWrap'>
                 {% if good.discount>0 %}
-                <div class="sticker"><img class="stickerImg" src="/public/css/star.png"><span
-                            class="stickerTextFit">{{ good.discount }}%</span></div>
+                    <div class="sticker"><img class="stickerImg" src="/public/css/star.png"><span
+                                class="stickerTextFit">{{ good.discount }}%</span></div>
                 {% elseif good.stickerFit == 1 %}
-                <div class="sticker"><img class="stickerImg" src="/public/css/star.png"><span class="stickerTextFit">Fit!</span>
-                </div>
+                    <div class="sticker"><img class="stickerImg" src="/public/css/star.png"><span
+                                class="stickerTextFit">Fit!</span>
+                    </div>
                 {% elseif good.stickerHit == 1 %}
-                <div class="sticker"><img class="stickerImg" src="/public/css/star.png"><span class="stickerTextHit">Hit!</span>
-                </div>
+                    <div class="sticker"><img class="stickerImg" src="/public/css/star.png"><span
+                                class="stickerTextHit">Hit!</span>
+                    </div>
                 {% endif %}
                 <div class="wrapGoodImg">
                     <a href="index.php?c=page&act=item&id={{ good.id }}"><img class='goodImg'
-                                                                                       src="{{ good.miniPhoto }}"></a>
+                                                                              src="{{ good.miniPhoto }}"></a>
                 </div>
                 <div class="wrapGoodInfo">
                     <div class='goodsNameFull'>{{ good.nameFull }}</div>
@@ -44,10 +43,13 @@
             </div>
         {% endfor %}
     </div>
-    <footer>
-        {% include 'footer.tmpl' %}
-    </footer>
-    <script src='../js/my.js' defer></script>
 </main>
+<footer>
+    {% include 'footer.tmpl' %}
+</footer>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+<script src='../js/my.js' defer></script>
 </body>
 </html>
