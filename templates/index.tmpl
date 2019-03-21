@@ -38,7 +38,7 @@
                     <input type='button' class='addToBasket btn' value='Дoбавить в корзину'
                            onclick="addToBasket({{ good.id }})" data-id='{{ good.id }}'>
                     <input type='button' class='deleteToBasket btn' value='Удалить из корзины'
-                           onclick="deleteToBasket({{ good.id }})" data-id='{{ good.id }}'>
+                           onclick="deleteFromBasket({{ good.id }})" data-id='{{ good.id }}'>
                 </div>
             </div>
         {% endfor %}
@@ -47,9 +47,10 @@
 <footer>
     {% include 'footer.tmpl' %}
 </footer>
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"
-        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-        crossorigin="anonymous"></script>
+{#<script src="https://code.jquery.com/jquery-3.3.1.min.js"#}
+        {#integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="#}
+        {#crossorigin="anonymous"></script>#}
+<script src="../js/jquery-3.3.1.js"></script>
 <script src='../js/my.js' defer></script>
 </body>
 </html>

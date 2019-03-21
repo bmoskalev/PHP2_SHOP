@@ -61,6 +61,10 @@ class C_Page extends C_Model
         $this->render('comments.tmpl',$comments);
     }
 
+    public function action_order()
+    {
+        $this->render('order.tmpl');
+    }
 }
 
 

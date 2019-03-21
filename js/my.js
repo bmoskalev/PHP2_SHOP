@@ -17,7 +17,7 @@ function renderAllGoods() {
                 table += '<th>' + dateAnswer[key].nameFull + '</th>';
                 table += '<td><i class="fas fa-plus addToBasket" onclick="addToBasket(' + dateAnswer[key].id + ')" data-id=' + dateAnswer[key].id + '></i>';
                 table += '<div class="basketOneCount' + dateAnswer[key].id + '">' + dateAnswer[key].count + '</div>';
-                table += '<i class="fas fa-minus deleteToBasket" onclick="deleteToBasket(' + dateAnswer[key].id + ')" data-id=' + dateAnswer[key].id + '></i></td>';
+                table += '<i class="fas fa-minus deleteToBasket" onclick="deleteFromBasket(' + dateAnswer[key].id + ')" data-id=' + dateAnswer[key].id + '></i></td>';
                 table += '<td><div class="basketOneSum' + dateAnswer[key].id + '">' + dateAnswer[key].count * dateAnswer[key].price + '</div></td></tr>';
                 i++;
             }
@@ -34,39 +34,36 @@ function renderBasketModal() {
     // var str = "getBasketGoods=" + '1';
     $.ajax({
         url: 'index.php?c=basket&act=getBasketGoods', // путь к php-обработчику
-        type: 'POST', // метод передачи данных
-        dataType: 'json', // тип ожидаемых данных в ответе
-        // data: str, // данные, которые передаем на сервер
+        type: "POST", // метод передачи данных
+        dataType: "json", // тип ожидаемых данных в ответе
         error: function (req, text, error) { // отслеживание ошибок во время выполнения ajax-запроса
             alert('Хьюстон, У нас проблемы! ' + text + ' | ' + error);
         },
         success: function (dateAnswer) {
-            console.log("Вызов");
-            // let sumGood = 0;
-            // let table = '<table class="table table-hover"><thead><tr><th scope="col">Наименование</th><th scope="col">Количество</th><th scope="col">Сумма</th></tr></thead><tbody >';
-            // for (let key in dateAnswer) {
-			// 	sumGood += dateAnswer[key].count * dateAnswer[key].price;
-            //     table += '<tr class="rowGoods' + dateAnswer[key].id + '">';
-            //     table += '<th>' + dateAnswer[key].nameFull + '</th>';
-            //     table += '<td><div class="countModal"><div class="simbolModal"><i class="fas fa-plus" onclick="addToBasket(' + dateAnswer[key].id + ')" data-id=' + dateAnswer[key].id + '></i></div>';
-            //     table += '<div class="basketOneCount' + dateAnswer[key].id + '">' + dateAnswer[key].count + '</div>';
-            //     table += '<div class="simbolModal"><i class="fas fa-minus" onclick="deleteToBasket(' + dateAnswer[key].id + ')" data-id=' + dateAnswer[key].id + '></i></div></div></td>';
-            //     table += '<td><div class="basketOneSum' + dateAnswer[key].id + '">' + dateAnswer[key].count * dateAnswer[key].price + '</div></td></tr>';
-            // }
-			// table += '<tr class="">';
-            //     table += '<td></td><th>Сумма заказа</th>';
-            //     table += '<td><div class="bascketTotalSum">'+sumGood+'</div></td></tr>';
-            // table += ('</table>');
-            // const modal = $('.modal-body');
-            // modal.empty();
-            // modal.append(table);
+            let sumGood = 0;
+            let table = '<table class="table table-hover"><thead><tr><th scope="col">Наименование</th><th scope="col">Количество</th><th scope="col">Сумма</th></tr></thead><tbody >';
+            for (let key in dateAnswer) {
+				sumGood += dateAnswer[key].count * dateAnswer[key].price;
+                table += '<tr class="rowGoods' + dateAnswer[key].id + '">';
+                table += '<th>' + dateAnswer[key].nameFull + '</th>';
+                table += '<td><div class="countModal"><div class="simbolModal"><i class="fas fa-plus" onclick="addToBasket(' + dateAnswer[key].id + ')" data-id=' + dateAnswer[key].id + '></i></div>';
+                table += '<div class="basketOneCount' + dateAnswer[key].id + '">' + dateAnswer[key].count + '</div>';
+                table += '<div class="simbolModal"><i class="fas fa-minus" onclick="deleteFromBasket(' + dateAnswer[key].id + ')" data-id=' + dateAnswer[key].id + '></i></div></div></td>';
+                table += '<td><div class="basketOneSum' + dateAnswer[key].id + '">' + dateAnswer[key].count * dateAnswer[key].price + '</div></td></tr>';
+            }
+			table += '<tr class="">';
+                table += '<td></td><th>Сумма заказа</th>';
+                table += '<td><div class="bascketTotalSum">'+sumGood+'</div></td></tr>';
+            table += ('</table>');
+            const modal = $('.modal-body');
+            modal.empty();
+            modal.append(table);
         }
     });
 };
 
 function addToBasket(idGood) {
     // var str = "addBasketid=" + idGood;
-    alert('index.php?c=basket&act=addToBasket&id=' + idGood);
     $.ajax({
         url: 'index.php?c=basket&act=addToBasket&id=' + idGood, // путь к php-обработчику
         type: 'POST', // метод передачи данных
@@ -86,18 +83,17 @@ function addToBasket(idGood) {
     });
 };
 
-function deleteToBasket(idGood) {
-    const str = "deleteToBasketid=" + idGood;
+function deleteFromBasket(idGood) {
+//    const str = "deleteToBasketid=" + idGood;
     $.ajax({
-        url: '../controllers/Basket.php', // путь к php-обработчику
+        url: 'index.php?c=basket&act=deleteFromBasket&id=' + idGood, // путь к php-обработчику
         type: 'POST', // метод передачи данных
         dataType: 'json', // тип ожидаемых данных в ответе
-        data: str, // данные, которые передаем на сервер
+//        data: str, // данные, которые передаем на сервер
         error: function (req, text, error) { // отслеживание ошибок во время выполнения ajax-запроса
             alert('Хьюстон, У нас проблемы! ' + text + ' | ' + error);
         },
         success: function (dateAnswer) {
-            console.log(dateAnswer);
             if (dateAnswer[2] > 0) {
                 $('.basketInfoOut').html('<strong>Корзина</strong>' + '<br>' + '<strong>' + dateAnswer[0] + '</strong>');
                 $('.basketOneCount' + idGood).html(dateAnswer[2]);
@@ -245,12 +241,12 @@ function deleteGood(id) {
 };
 
 function dbCreateOrder() {
-    const str = "dbCreateOrder=" + 1;
+//    const str = "dbCreateOrder=" + 1;
     $.ajax({
-        url: '../controllers/Basket.php', // путь к php-обработчику
+        url: 'index.php?c=basket&act=dbCreateOrder', // путь к php-обработчику
         type: 'POST', // метод передачи данных
         dataType: 'json', // тип ожидаемых данных в ответе
-        data: str, // данные, которые передаем на сервер
+//        data: str, // данные, которые передаем на сервер
         error: function (req, text, error) { // отслеживание ошибок во время выполнения ajax-запроса
             alert('Хьюстон, У нас проблемы! ' + text + ' | ' + error);
         },

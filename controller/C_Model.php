@@ -9,7 +9,8 @@ class C_Model
     protected $db = DB;
     protected $user;
 
-    public function render($template, $params=[]){
+    public function render($template, $params = [])
+    {
         $this->user = $_SESSION['login'];
         echo $this->user;
         if (isset($_SESSION['login'])) {
@@ -20,11 +21,18 @@ class C_Model
             $twig = new \Twig_Environment($loader);
             $template = $twig->loadTemplate($template);
             echo $template->render(array(
-                'param'=>$params,
-                'user'=>$this->user));
+                'param' => $params,
+                'user' => $this->user));
 
         } catch (Exception $e) {
             die ('ERROR: ' . $e->getMessage());
         }
+    }
+
+    protected function getOne($id, $table)
+    {
+        $query = sprintf("SELECT * FROM {$table} where id=%d", (int)$id);
+        $result = $this->db::getRow($query);
+        return $result;
     }
 }

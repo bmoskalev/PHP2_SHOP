@@ -51,9 +51,30 @@ class C_Basket extends C_Model
         echo json_encode($req); // возвращаем данные ответом, преобразовав в JSON-строку
     }
 
+    public function action_deleteFromBasket($id)
+    {
+        $goodBasket = $this->getOne($id, 'basket');
+
+        if ($goodBasket['count'] > 1) {
+            $sql = "UPDATE `basket` SET `count`= `count`-1 WHERE id=$id";
+            $this->db::update($sql);
+        } else {
+            $sql = "DELETE FROM `basket` WHERE id=$id";
+            $this->db::delete($sql);
+        }
+        $countGoodsOrder = $this->countGoodsOrder();
+        $sumGoodsOrder = $this->sumGoodsOrder();
+        $countOneGoodsOrder = $this->countOneGoodsOrder($id);
+        $sumOneGoodsOrder = $this->sumOneGoodsOrder($id);
+        $orderTotalSum = $this->orderTotalSum();
+        $sumGoodsOrderDiscount = $this->sumGoodsOrderDiscount();
+
+        $req = [$countGoodsOrder, $sumGoodsOrder, $countOneGoodsOrder, $sumOneGoodsOrder, $orderTotalSum, $sumGoodsOrderDiscount]; // присваиваем переменной нужные данные
+        echo json_encode($req); // возвращаем данные ответом, преобразовав в JSON-строку
+    }
+
     public function action_getBasketGoods()
     {
-        print("Вызов1");
         $goodBasket = $this->renderBasketModal();
         echo json_encode($goodBasket); // возвращаем данные ответом, преобразовав в JSON-строку
     }
@@ -85,7 +106,7 @@ class C_Basket extends C_Model
         return $countOrder['count'];
     }
 
-    private function sumGoodsOrder($connect)
+    private function sumGoodsOrder()
     {
         $query = "SELECT sum(`count`*`price`) AS sum FROM `basket`";
 //        $result = mysqli_query($connect, $query);
@@ -96,7 +117,7 @@ class C_Basket extends C_Model
         return $sumOrder['sum'];
     }
 
-    private function countOneGoodsOrder($connect, $id)
+    private function countOneGoodsOrder($id)
     {
         $query = sprintf("SELECT `count`  FROM `basket` WHERE id='%d'", (int)$id);
 //        $result = mysqli_query($connect, $query);
@@ -107,7 +128,7 @@ class C_Basket extends C_Model
         return $countOneOrder['count'];
     }
 
-    private function sumOneGoodsOrder($connect, $id)
+    private function sumOneGoodsOrder($id)
     {
         $query = sprintf("SELECT sum(`count`*`price`) AS sum FROM `basket` WHERE id='%d'", (int)$id);
 //        $result = mysqli_query($connect, $query);
@@ -118,7 +139,7 @@ class C_Basket extends C_Model
         return $sumOneOrder['sum'];
     }
 
-    private function orderTotalSum($connect)
+    private function orderTotalSum()
     {
         $query = "SELECT sum(`count`*`price`) AS sum FROM `basket`";
 //        $result = mysqli_query($connect, $query);
@@ -129,7 +150,7 @@ class C_Basket extends C_Model
         return $orderTotalSum['sum'];
     }
 
-    private function sumGoodsOrderDiscount($connect)
+    private function sumGoodsOrderDiscount()
     {
         $query = "SELECT sum(`count`*`price`*(100-`discount`)/100) AS sumDiscount FROM `basket`";
 //        $result = mysqli_query($connect, $query);
@@ -158,4 +179,72 @@ class C_Basket extends C_Model
         return $goods;
     }
 
+    public function action_dbCreateOrder
+    {
+        $orderInfo = $this->getClientInfo_all();
+
+        $timeOrder = time();
+
+        if (count($orderInfo) == 0) {
+            $this->clientInfo_new($timeOrder, $name, $phone, $discountCard, $persons, $pay, $desiredTime, $money, $address, $comment, $delivery, $desiredTime);
+        } else {
+            $this->clientInfo_edit($timeOrder, $name, $phone, $discountCard, $persons, $pay, $desiredTime, $money, $address, $comment, $delivery, $desiredTime);
+        };
+
+
+        $orderInfo = $this->getClientInfo_all();
+        $idClient = $orderInfo[0]['id'];
+        $goodsBascket = goodsBasket_all();
+
+        $query = sprintf("TRUNCATE `orderToManager`");
+        $result = mysqli_query($query);
+
+        foreach ($goodsBascket as $good) {
+            $idGood = $good['id'];
+            $count = $good['count'];
+            newOrderToManager($idClient, $idGood, $count);
+        }
+
+        echo json_encode($goodsBascket); // возвращаем данные ответом, преобразовав в JSON-строку
+    }
+
+    private function getClientInfo_all()
+    {
+        $query = "SELECT * FROM clientInfo";
+        $result = $this->db::getRows($query);
+        return $result;
+    }
+
+    private function clientInfo_new($timeOrder, $name, $phone, $discountCard, $persons, $pay, $money, $address, $comment, $delivery, $desiredTime)
+    {
+        $sql = "INSERT INTO clientInfo (timeOrder, name, phone, discountCard, persons, pay, money, address, comment, delivery, desiredTime) VALUES (?, ?, ?, ?, ?, ?,?,?,?,?,?)";
+        $this->db::insert($sql, [$timeOrder, $name, $phone, $discountCard, $persons, $pay, $money, $address, $comment, $delivery, $desiredTime]);
+        return true;
+    }
+
+    private function clientInfo_edit($timeOrder, $name, $phone, $discountCard, $persons, $pay, $money, $address, $comment, $delivery, $desiredTime)
+    {
+        $sql = "UPDATE clientInfo SET timeOrder= ?, name=?, phone=?, discountCard=?, persons=?, pay=?, money=?, address=?, comment=?, delivery=?, desiredTime=?";
+        $this->db::update($sql,[$timeOrder, $name, $phone, $discountCard, $persons, $pay, $money, $address, $comment, $delivery, $desiredTime]);
+        return $this->db::rowCount();
+    }
+
+    function goodsBasket_all($connect)
+    {
+        $query = "SELECT * FROM basket order by id";
+        $result = mysqli_query($connect, $query);
+
+        if (!$result)
+            die(mysqli_error($connect));
+
+        $n = mysqli_num_rows($result);
+        $goods = array();
+
+        for ($i = 0; $i < $n; $i++) {
+            $row = mysqli_fetch_assoc($result);
+            $goods[] = $row;
+        }
+
+        return $goods;
+    }
 }
